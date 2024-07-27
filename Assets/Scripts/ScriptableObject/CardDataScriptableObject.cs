@@ -5,5 +5,5 @@ public class CardDataScriptableObject : ScriptableObject
 {
   public string card_name;
   public int card_typeIndex;
-  public Sprite card_displaySprite;
+  public Material card_displayMaterial;
 }

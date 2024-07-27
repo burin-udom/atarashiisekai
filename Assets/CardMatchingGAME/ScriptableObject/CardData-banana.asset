@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e781494d0df127743bf310b1176c5bcc, type: 3}
-  m_Name: CardData
+  m_Name: CardData-banana
   m_EditorClassIdentifier: 
-  card_name: 
-  card_typeIndex: 0
-  card_displaySprite: {fileID: 0}
+  card_name: banana
+  card_typeIndex: 1
+  card_displayMaterial: {fileID: 2100000, guid: 97d1ebf6cd8c63b49a8e4461f429779c, type: 2}
