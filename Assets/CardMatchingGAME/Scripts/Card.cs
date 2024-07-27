@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.Rendering.Universal;
 
 public class Card : MonoBehaviour
@@ -11,9 +12,11 @@ public class Card : MonoBehaviour
   public int card_typeIndex;
   public MeshRenderer card_renderer;
 
-  [SerializeField]
-  private CardDataScriptableObject cardData;
+  public IObjectPool<Card> cardPool;
 
+  /*[SerializeField]
+  private CardDataScriptableObject cardData;
+  */
   private bool isCardfilpped = false;
   [SerializeField]
   private float card_flipduration = 0.5f;
@@ -24,7 +27,7 @@ public class Card : MonoBehaviour
   {
 
   }
-  void Update()
+  /*void Update()
   {
     if(Input.GetKeyDown(KeyCode.C))
     {
@@ -34,7 +37,7 @@ public class Card : MonoBehaviour
     {
       FlipCard();
     }
-  }
+  }*/
 
   public void SetupCardDataAndDisplay(CardDataScriptableObject data)
   {
