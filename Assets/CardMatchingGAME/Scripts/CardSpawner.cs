@@ -21,8 +21,7 @@ public class CardSpawner : MonoBehaviour
   [SerializeField]
   private int maxSize = 100;
 
-  [SerializeField]
-  private List<CardDataScriptableObject> cardDatas = new List<CardDataScriptableObject>();
+  public List<CardDataScriptableObject> cardDatas = new List<CardDataScriptableObject>();
 
   private void Awake()
   {
@@ -39,13 +38,13 @@ public class CardSpawner : MonoBehaviour
     card_Objectpool = new ObjectPool<Card>(OnCreateCard, OnGetCardFromPool, OnReleaseCardFromPool, OnDestroyCardObject, collectionCheck, defaultCapacity, maxSize);
   }
 
-  private void Update()
+  /*private void Update()
   {
     if(Input.GetKeyDown(KeyCode.C))
     {
       card_Objectpool.Get();
     }
-  }
+  }*/
 
   private Card OnCreateCard()
   {
@@ -58,14 +57,14 @@ public class CardSpawner : MonoBehaviour
   }
   private void OnGetCardFromPool(Card cardObject)
   {
-    float posX = Random.Range(0f, 7.5f);
+    /*float posX = Random.Range(0f, 7.5f);
     float posZ = Random.Range(-4.25f, 0.25f);
-    /*SetupNewCardData(cardObject);
+    SetupNewCardData(cardObject);
 
     float posX = Random.Range(0f, 7.5f);
-    float posZ = Random.Range(-4.25f, 0.25f);
+    float posZ = Random.Range(-4.25f, 0.25f);*/
 
-    cardObject.transform.localPosition = new Vector3(posX, 0f, posZ);*/
+    cardObject.transform.localPosition = card_prefab.transform.localPosition;
     cardObject.gameObject.SetActive(true);
   }
   private void OnReleaseCardFromPool(Card cardObject)
@@ -81,6 +80,13 @@ public class CardSpawner : MonoBehaviour
   {
     int randomCardType = Random.Range(0, cardDatas.Count);
     card.SetupCardDataAndDisplay(cardDatas[randomCardType]);
+  }
+
+  public Card GetCard()
+  {
+    Card card = card_Objectpool.Get();
+
+    return card;
   }
 
 }
