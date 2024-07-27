@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,6 +14,12 @@ public class Card : MonoBehaviour
   [SerializeField]
   private CardDataScriptableObject cardData;
 
+  private bool isCardfilpped = false;
+  [SerializeField]
+  private float card_flipduration = 0.5f;
+  [SerializeField]
+  private Ease setflipanimationEase;
+
   void Start()
   {
 
@@ -23,7 +30,10 @@ public class Card : MonoBehaviour
     {
       SetupCardDataAndDisplay(cardData);
     }
-
+    if (Input.GetKeyDown(KeyCode.F))
+    {
+      FlipCard();
+    }
   }
 
   public void SetupCardDataAndDisplay(CardDataScriptableObject data)
@@ -34,6 +44,24 @@ public class Card : MonoBehaviour
     if(card_renderer != null)
     {
       card_renderer.material = data.card_displayMaterial;
+    }
+  }
+
+  public void FlipCard()
+  {
+    if(isCardfilpped)
+    {
+      var flipping = transform.DOLocalRotate(new Vector3(0f, 0f, 0f), card_flipduration).SetEase(setflipanimationEase).OnComplete(() =>
+      {
+        isCardfilpped = false;
+      });
+    }
+    else
+    {
+      var flipping = transform.DOLocalRotate(new Vector3(0f, 0f, 180f), card_flipduration).SetEase(setflipanimationEase).OnComplete(() =>
+      {
+        isCardfilpped = true;
+      });
     }
   }
 }
