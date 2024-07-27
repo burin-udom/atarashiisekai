@@ -63,8 +63,9 @@ public class CardSpawner : MonoBehaviour
 
     float posX = Random.Range(0f, 7.5f);
     float posZ = Random.Range(-4.25f, 0.25f);*/
-
+    cardObject.ResetFlipping();
     cardObject.transform.localPosition = card_prefab.transform.localPosition;
+    cardObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
     cardObject.gameObject.SetActive(true);
   }
   private void OnReleaseCardFromPool(Card cardObject)
