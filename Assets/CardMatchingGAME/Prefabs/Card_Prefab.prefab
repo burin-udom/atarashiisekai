@@ -344,7 +344,9 @@ MonoBehaviour:
   card_name: 
   card_typeIndex: 0
   card_renderer: {fileID: 2145105373458542409}
-  card_flipduration: 1.25
+  isCardfilpped: 0
+  isFlipping: 0
+  card_flipduration: 1
   setflipanimationEase: 24
 --- !u!65 &8728663662195658913
 BoxCollider:

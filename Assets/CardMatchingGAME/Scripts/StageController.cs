@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StageController : MonoBehaviour
 {
   public static StageController instance;
 
-  public List<Card> cards;
+  public List<Card> cards_stage;
 
   [SerializeField]
   private int card_spawnRow = 1;
@@ -27,7 +28,30 @@ public class StageController : MonoBehaviour
   private List<Card> cardsMatching = new List<Card>();
   [SerializeField]
   private int card_matchingcount = 2;
-  private bool isCardMatchingCheck = false;
+
+  public UnityEvent<int> onUpdateMatchingScoreEvent;
+  private int card_matchingScore = 0;
+  public int MatchingScore
+  {
+    get { return card_matchingScore; }
+    set
+    {
+      card_matchingScore = value;
+      onUpdateMatchingScoreEvent?.Invoke(card_matchingScore);
+    }
+  }
+
+  public UnityEvent<int> onUpdateMatchingTurnEvent;
+  private int card_matchingTurn = 0;
+  public int MatchingTurn
+  {
+    get { return card_matchingTurn; }
+    set
+    {
+      card_matchingTurn = value;
+      onUpdateMatchingTurnEvent?.Invoke(card_matchingTurn);
+    }
+  }
 
   private void Awake()
   {
@@ -71,7 +95,7 @@ public class StageController : MonoBehaviour
         SetupNewCardData(newcard);
         newcard.SetCardIndex(card_index);
         newcard.CallFlipCardAsync(false, stage_delaycardFlip);
-        cards.Add(newcard);
+        cards_stage.Add(newcard);
         card_index++;
       }
     }
@@ -87,14 +111,12 @@ public class StageController : MonoBehaviour
         cardsMatching.Add(card); 
         if (cardsMatching.Count == card_matchingcount)
         {
-          List<Card> checkingCardMatch = new List<Card>();
-          foreach (Card checkcard in cardsMatching)
-          {
-            checkingCardMatch.Add(checkcard);
-          }
-
+          MatchingTurn++;
+          List<Card> checkingCardMatch = new List<Card>(cardsMatching);
           card.CallFlipCardAsync(true, 0, () => {
+
             CheckCardMatching(checkingCardMatch);
+
           });
           cardsMatching.Clear();
         }
@@ -114,22 +136,23 @@ public class StageController : MonoBehaviour
 
   public void ClearCardPoolStage()
   {
-    if (cards.Count > 0)
+    if (cards_stage.Count > 0)
     {
-      foreach (var card in cards)
+      foreach (var card in cards_stage)
       {
         card.cardPool.Release(card);
       }
-      cards.Clear();
+      cards_stage.Clear();
     }
   }
 
   void CheckCardMatching(List<Card> cards)
   {
-    Debug.Log("Checking Card Matching : " + cards.Count);
+    //Debug.Log("Checking Card Matching : " + cards.Count);
     bool isCardMatching = false;
     if(cards.Count == card_matchingcount)
     {
+      //MatchingTurn++;
       var firstFlipFrontCard = cards[0];
 
       int matchingScore = 1;
@@ -148,39 +171,27 @@ public class StageController : MonoBehaviour
 
       if (isCardMatching)
       {
-        ReleaseMatchingCards(cards);
+        OnMatchingCards(cards);
       }
       else
       {
-        ResetUnMatchingCard(cards);
+        OnUnMatchingCard(cards);
       }
-      //cardsMatching.Clear();
     }
-
-    //return isCardMatching;
   }
-  void ResetUnMatchingCard(List<Card> cards)
+  void OnUnMatchingCard(List<Card> cards)
   {
-    /*Task[] tasks = new Task[cardsMatching.Count];
-
-    int i = 0;
-    foreach(var card in cardsMatching)
-    {
-      tasks[i] = card.FlipCard(false, 0);
-      i++;
-    }
-    await Task.WhenAll(tasks);*/
-
     foreach (var card in cards)
     {
       card.CallFlipCardAsync(false, 0);
-      //card.CallFlipCardAsync(false, 0);
     }
   }
-  void ReleaseMatchingCards(List<Card> cards)
+  void OnMatchingCards(List<Card> cards)
   {
+    MatchingScore++;
     foreach (var card in cards)
     {
+      cards_stage.Remove(card);
       card.cardPool.Release(card);
     }
   }
