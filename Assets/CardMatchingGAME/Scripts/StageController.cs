@@ -31,7 +31,9 @@ public class StageController : MonoBehaviour
   private List<Card> cardsMatching = new List<Card>();
   [SerializeField]
   private int card_matchingcount = 2;
+  private int card_scoretopasslevel = 5;
 
+  public UnityEvent onPassLevelEvent;
   public UnityEvent<int> onUpdateMatchingScoreEvent;
   private int card_matchingScore = 0;
   public int MatchingScore
@@ -41,6 +43,18 @@ public class StageController : MonoBehaviour
     {
       card_matchingScore = value;
       onUpdateMatchingScoreEvent?.Invoke(card_matchingScore);
+      if(card_matchingScore == card_scoretopasslevel)
+      {
+        bool isGameEnding = LevelManager.instance.CheckingGameEnding();
+        if (!isGameEnding)
+        {
+          onPassLevelEvent?.Invoke();
+        }
+        else
+        {
+          LevelManager.instance.onGameEndingEvent?.Invoke();
+        }
+      }
     }
   }
 
@@ -56,8 +70,7 @@ public class StageController : MonoBehaviour
     }
   }
 
-  public List<int> debug_cardsTypePool = new List<int>();
-
+  //public List<int> debug_cardsTypePool = new List<int>();
 
   private void Awake()
   {
@@ -87,6 +100,8 @@ public class StageController : MonoBehaviour
     MatchingTurn = 0;
     cardsMatching.Clear();
     card_matchingcount = leveldata.level_cardmatchingcount;
+    card_scoretopasslevel = leveldata.level_scoretopasslevel;
+    stage_delaycardFlip = leveldata.level_delaycardflip;
 
     CreateCardPoolStage(leveldata.level_cardspawnRow, leveldata.level_cardspawnColumn);
   }
@@ -164,13 +179,13 @@ public class StageController : MonoBehaviour
   }
   void SetupNewCardData(Card card, int cardIndex, int cardTypeIndex)
   {
-    Debug.Log("SetupNewCard Index: " + cardIndex + ", Type: " + cardTypeIndex);
+    //Debug.Log("SetupNewCard Index: " + cardIndex + ", Type: " + cardTypeIndex);
     card.SetupCardDataAndDisplay(cardSpawner.cardDatas.Find(x => x.card_typeIndex == cardTypeIndex));
     card.SetCardIndex(cardIndex);
     card.CallFlipCardAsync(false, stage_delaycardFlip);
   }
 
-  public void CallCardFlip(GameObject cardObject)
+  public void InteractCardFlip(GameObject cardObject)
   {
     var card = cardObject.GetComponent<Card>();
     if (card != null)

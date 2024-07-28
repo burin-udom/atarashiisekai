@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,6 +11,11 @@ public class LevelManager : MonoBehaviour
   private List<LevelDataScriptableObject> level_scriptabledatas;
 
   public Dictionary<int, LevelDataScriptableObject> level_datas = new Dictionary<int, LevelDataScriptableObject>();
+
+  private int level_currentlevel = 0;
+
+  public UnityEvent onGameEndingEvent;
+  public bool isGameEnd = false;
 
   private void Awake()
   {
@@ -47,13 +53,38 @@ public class LevelManager : MonoBehaviour
 
   public void StartLevelIndex(int index)
   {
-    var level = level_scriptabledatas[index];
-
-    if(level != null)
+    if(level_datas.ContainsKey(index))
     {
-      AssignCardData(level.level_cardDatas);
-      StageController.instance.StartStage(level);
+      var level = level_datas[index];
+      level_currentlevel = level.level_index;
+
+      Debug.Log("Starting Level: " + level.level_name);
+      if (level != null)
+      {
+        AssignCardData(level.level_cardDatas);
+        StageController.instance.StartStage(level);
+      }
     }
+  }
+
+  public void StartNextLevel()
+  {
+    level_currentlevel++;
+    if(level_scriptabledatas.Count > level_currentlevel)
+    {
+      StartLevelIndex(level_currentlevel);
+    }
+  }
+
+  public bool CheckingGameEnding()
+  {  
+    int nextLevelIndex = level_currentlevel + 1;
+
+    if (!level_datas.ContainsKey(nextLevelIndex))
+    {
+      isGameEnd = true;
+    }
+    return isGameEnd;
   }
 
   void AssignCardData(List<CardDataScriptableObject> newCardDatas)

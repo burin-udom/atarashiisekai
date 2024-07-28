@@ -17,6 +17,7 @@ MonoBehaviour:
   level_cardspawnRow: 4
   level_cardspawnColumn: 6
   level_cardmatchingcount: 2
+  level_scoretopasslevel: 12
   level_cardDatas:
   - {fileID: 11400000, guid: 577787568a9aa2f4288858ac9f833f9e, type: 2}
   - {fileID: 11400000, guid: a57332cad981735488277bc973fe524a, type: 2}
