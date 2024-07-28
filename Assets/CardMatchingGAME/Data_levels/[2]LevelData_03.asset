@@ -10,17 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd8f89171d6fff943ba62e8d0d858b64, type: 3}
-  m_Name: '[1]LevelData_02'
+  m_Name: '[2]LevelData_03'
   m_EditorClassIdentifier: 
-  level_name: level02
-  level_index: 1
+  level_name: level03
+  level_index: 2
   level_cardspawnRow: 4
-  level_cardspawnColumn: 4
+  level_cardspawnColumn: 6
   level_delaycardflip: 1000
   level_cardmatchingcount: 2
-  level_scoretopasslevel: 8
+  level_scoretopasslevel: 12
   level_cardDatas:
+  - {fileID: 11400000, guid: 577787568a9aa2f4288858ac9f833f9e, type: 2}
   - {fileID: 11400000, guid: a57332cad981735488277bc973fe524a, type: 2}
   - {fileID: 11400000, guid: 0cb39b2edcbf72242963d1e942f7902e, type: 2}
-  - {fileID: 11400000, guid: ffacdba8a651de741bdc166912863626, type: 2}
   - {fileID: 11400000, guid: d645c472d0fe12746b6ef81dde9536bc, type: 2}
+  - {fileID: 11400000, guid: ffacdba8a651de741bdc166912863626, type: 2}
+  - {fileID: 11400000, guid: 930beb9f58da88e42b71fb2f7ac8baa3, type: 2}
+  - {fileID: 11400000, guid: 27b3e1f30e9629e4ca05641b9feb3a08, type: 2}

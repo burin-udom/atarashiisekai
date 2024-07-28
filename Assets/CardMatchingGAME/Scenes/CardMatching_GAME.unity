@@ -2104,7 +2104,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level_scriptabledatas:
   - {fileID: 11400000, guid: 390371aa8a81fa543ac002df27cd6523, type: 2}
+  - {fileID: 11400000, guid: 3e042ff67da3df44e9a4078021999c26, type: 2}
   - {fileID: 11400000, guid: c1ac7906b020265478092dd9c52f30ee, type: 2}
+  - {fileID: 11400000, guid: 69431b15d4838a54594f302783a52227, type: 2}
   onGameStartEvent:
     m_PersistentCalls:
       m_Calls:
@@ -3882,6 +3884,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  debug_cardsTypePool: 
 --- !u!4 &1717435476
 Transform:
   m_ObjectHideFlags: 0

@@ -65,7 +65,7 @@ public class StageController : MonoBehaviour
     }
   }
 
-  //public List<int> debug_cardsTypePool = new List<int>();
+  public List<int> debug_cardsTypePool = new List<int>();
 
   private void Awake()
   {
@@ -112,7 +112,7 @@ public class StageController : MonoBehaviour
 
     List<CardDataScriptableObject> randomCards = new List<CardDataScriptableObject>();
     
-    if(cardSpawner.cardDatas.Count > cardTypeNumbers)
+    if(cardSpawner.cardDatas.Count >= cardTypeNumbers)
     {
       randomCards = cardSpawner.cardDatas.OrderBy(x => Guid.NewGuid()).Take(cardTypeNumbers).ToList();
     }
@@ -142,12 +142,27 @@ public class StageController : MonoBehaviour
   public void CreateCardPoolStage(int cardRowNumber, int cardColumnNumber)
   {
     ClearCardPoolStage();
+    bool isCardNumbersRequireAdditional = (cardRowNumber * cardColumnNumber) % card_matchingcount == 0;
 
-    int cardTypeNumbers = (cardRowNumber * cardColumnNumber) / card_matchingcount;
+    int cardNumbers = cardRowNumber * cardColumnNumber;
+    List<int> cardsTypePool = new List<int>();
+    
+    if (!isCardNumbersRequireAdditional)
+    {
+      cardNumbers -= 1;
+      int randomAdditionCardType = cardSpawner.cardDatas.OrderBy(x => Guid.NewGuid()).FirstOrDefault().card_typeIndex;
+      //Debug.Log("Random Additional CardType: " + randomAdditionCardType);
+      cardsTypePool.Add(randomAdditionCardType);
+      debug_cardsTypePool.Add(randomAdditionCardType);
+    }
+    int cardTypeNumbers = cardNumbers / card_matchingcount;
+    //Debug.Log("Card Type To Random: " + cardTypeNumbers);
 
-    List<int> cardsTypePool = CreateRandomCardsPool(cardTypeNumbers);
+    var randomcardsPool = CreateRandomCardsPool(cardTypeNumbers);
+    //Debug.Log("Random Cards Pool Count: " + randomcardsPool.Count);
 
-    //debug_cardsTypePool = cardsTypePool;
+    debug_cardsTypePool.AddRange(randomcardsPool);
+    cardsTypePool.AddRange(randomcardsPool);
 
     int card_index = 0;
     for (int z = 0; z < cardRowNumber; z++)
