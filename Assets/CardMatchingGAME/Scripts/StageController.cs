@@ -13,11 +13,6 @@ public class StageController : MonoBehaviour
 
   public List<Card> cards_stage;
 
-  /*[SerializeField]
-  private int card_spawnRow = 1;
-  [SerializeField]
-  private int card_spawnColumn = 1;*/
-
   [SerializeField]
   private int stage_delaycardFlip = 1000;
 
@@ -185,6 +180,28 @@ public class StageController : MonoBehaviour
     card.CallFlipCardAsync(false, stage_delaycardFlip);
   }
 
+  public void StartLoadedStage(LevelDataScriptableObject leveldata, LevelSavedData savedData)
+  {
+    MatchingScore = savedData.level_matchingScore;
+    MatchingTurn = savedData.level_matchingTurn;
+    cardsMatching.Clear();
+    card_matchingcount = leveldata.level_cardmatchingcount;
+    card_scoretopasslevel = leveldata.level_scoretopasslevel;
+    stage_delaycardFlip = leveldata.level_delaycardflip;
+
+    ClearCardPoolStage();
+
+    for (int i = 0; i < savedData.card_savedDatas.Count; i++)
+    {
+      var newcard = cardSpawner.GetCard();
+      var cardSavedData = savedData.card_savedDatas[i];
+
+      newcard.transform.localPosition = cardSavedData.card_spawnPosition;
+      SetupNewCardData(newcard, cardSavedData.card_spawnIndex, cardSavedData.card_typeIndex);
+      cards_stage.Add(newcard);
+    }
+  }
+
   public void InteractCardFlip(GameObject cardObject)
   {
     var card = cardObject.GetComponent<Card>();
@@ -272,6 +289,22 @@ public class StageController : MonoBehaviour
       cards_stage.Remove(card);
       card.cardPool.Release(card);
     }
+  }
+
+  public List<CardSavedData> CreateStageCardSavedDatas()
+  {
+    List<CardSavedData> newCardSavedDatas = new List<CardSavedData>();
+
+    foreach(Card card in cards_stage)
+    {
+      CardSavedData newsavedData = new CardSavedData();
+      newsavedData.card_spawnIndex = card.GetCardIndex();
+      newsavedData.card_typeIndex = card.card_typeIndex;
+      newsavedData.card_spawnPosition = card.transform.localPosition;
+      newCardSavedDatas.Add(newsavedData);
+    }
+
+    return newCardSavedDatas;
   }
 
 }

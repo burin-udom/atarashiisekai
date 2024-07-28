@@ -5,17 +5,21 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+  public static UIController instance;
+
   public Text text_matchingscoreDisplay;
   public Text text_matchingturnDisplay;
 
-  void Start()
+  public GameObject toggle_selectloadlevel;
+  public Transform transform_selectloadlevelparent;
+
+  private void Awake()
   {
-
-  }
-
-  void Update()
-  {
-
+    if(instance != null)
+    {
+      return;
+    }
+    instance = this;
   }
 
   public void DisplayMatchingScore(int score)
@@ -25,6 +29,21 @@ public class UIController : MonoBehaviour
   public void DisplayMatchingTurn(int turn)
   {
     text_matchingturnDisplay.text = turn.ToString();
+  }
+
+  public void SetLoadLevelSelectionPanel(List<string> levelsname)
+  {
+    int i = 0;
+    foreach(string levelname in levelsname)
+    {
+      var toggleselectlevel = Instantiate(toggle_selectloadlevel, transform_selectloadlevelparent);
+
+      var newtoggle = toggleselectlevel.GetComponent<ToggleController>();
+      newtoggle.SetToggleLabel(levelname.Substring(0, levelname.Length - 5));
+      newtoggle.toggle_index = i;
+
+      i += 1;
+    }
   }
 
 }

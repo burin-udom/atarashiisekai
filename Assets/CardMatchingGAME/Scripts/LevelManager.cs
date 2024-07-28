@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class LevelSavedData
+{
+  public int level_levelIndex;
+  public int level_matchingScore;
+  public int level_matchingTurn;
+  public List<CardSavedData> card_savedDatas;
+}
+
 public class LevelManager : MonoBehaviour
 {
   public static LevelManager instance;
@@ -14,8 +23,14 @@ public class LevelManager : MonoBehaviour
 
   private int level_currentlevel = 0;
 
+  public UnityEvent onGameStartEvent;
   public UnityEvent onGameEndingEvent;
   public bool isGameEnd = false;
+
+  private List<string> savedfiles = new List<string>();
+  private string targetloadingfile = "";
+
+  public LevelSavedData debug_levelSavedData;
 
   private void Awake()
   {
@@ -29,6 +44,7 @@ public class LevelManager : MonoBehaviour
   void Start()
   {
     CreateLevelDatas();
+    GetSavedDataFiles();
   }
 
   private void CreateLevelDatas()
@@ -41,14 +57,29 @@ public class LevelManager : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.Alpha1))
+    /*if (Input.GetKeyDown(KeyCode.Alpha1))
     {
       StartLevelIndex(0);
     }
     if (Input.GetKeyDown(KeyCode.Alpha2))
     {
       StartLevelIndex(1);
+    }*/
+    if (Input.GetKeyDown(KeyCode.S))
+    {
+      SaveCurrentLevel();
     }
+    if (Input.GetKeyDown(KeyCode.G))
+    {
+      LoadingTargetLevel();
+    }
+
+  }
+
+  public void StartGame()
+  {
+    onGameStartEvent?.Invoke();
+    StartLevelIndex(0);
   }
 
   public void StartLevelIndex(int index)
@@ -93,6 +124,55 @@ public class LevelManager : MonoBehaviour
 
     cardSpawner.cardDatas.Clear();
     cardSpawner.cardDatas = new List<CardDataScriptableObject>(newCardDatas);
+  }
+
+
+  public void SaveCurrentLevel()
+  {
+    LevelSavedData levelSavedData = new LevelSavedData();
+
+    levelSavedData.level_levelIndex = level_currentlevel;
+    levelSavedData.level_matchingTurn = StageController.instance.MatchingTurn;
+    levelSavedData.level_matchingScore = StageController.instance.MatchingScore;
+    levelSavedData.card_savedDatas = StageController.instance.CreateStageCardSavedDatas();
+
+    string json = JsonUtility.ToJson(levelSavedData, true);
+
+    SavedLoadJson.SaveToJsonFile(json, "/savedlevel", level_datas[level_currentlevel].level_name + "saveddata.json");
+  }
+
+  public void LoadingTargetLevel()
+  {
+    var json = SavedLoadJson.LoadFromJsonFile("/savedlevel", targetloadingfile);
+
+    if (!string.IsNullOrEmpty(json))
+    {
+      var loadedLevelData = JsonUtility.FromJson<LevelSavedData>(json);
+      
+      var leveldata = level_datas[loadedLevelData.level_levelIndex];
+
+      onGameStartEvent?.Invoke();
+      level_currentlevel = leveldata.level_index;
+      AssignCardData(leveldata.level_cardDatas);
+      StageController.instance.StartLoadedStage(leveldata, loadedLevelData);
+      debug_levelSavedData = loadedLevelData;
+    }
+  }
+
+  public void GetSavedDataFiles()
+  {
+    var filesname = SavedLoadJson.GetFilesNameSavedPath("/savedlevel");
+
+    savedfiles = filesname;
+    UIController.instance.SetLoadLevelSelectionPanel(savedfiles);
+  }
+
+  public void SetTargetLoadingLevel(int index)
+  {
+    if (savedfiles.Count > index)
+    {
+      targetloadingfile = savedfiles[index];
+    }
   }
 
 }

@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
+[System.Serializable]
+public class CardSavedData
+{
+  public Vector3 card_spawnPosition;
+  public int card_spawnIndex;
+  public int card_typeIndex;
+}
+
+
 public class CardSpawner : MonoBehaviour
 {
   public static CardSpawner instance;
@@ -83,5 +92,4 @@ public class CardSpawner : MonoBehaviour
 
     return card;
   }
-
 }
