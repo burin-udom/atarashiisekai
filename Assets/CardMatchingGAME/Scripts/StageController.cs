@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Experimental.AI;
 
 public class StageController : MonoBehaviour
 {
@@ -10,10 +13,10 @@ public class StageController : MonoBehaviour
 
   public List<Card> cards_stage;
 
-  [SerializeField]
+  /*[SerializeField]
   private int card_spawnRow = 1;
   [SerializeField]
-  private int card_spawnColumn = 1;
+  private int card_spawnColumn = 1;*/
 
   [SerializeField]
   private int stage_delaycardFlip = 1000;
@@ -53,6 +56,9 @@ public class StageController : MonoBehaviour
     }
   }
 
+  public List<int> debug_cardsTypePool = new List<int>();
+
+
   private void Awake()
   {
     if(instance != null)
@@ -69,15 +75,70 @@ public class StageController : MonoBehaviour
 
   void Update()
   {
-    if (Input.GetKeyDown(KeyCode.S))
+    /*if (Input.GetKeyDown(KeyCode.S))
     {
       CreateCardPoolStage(card_spawnRow, card_spawnColumn);
+    }*/
+  }
+
+  public void StartStage(LevelDataScriptableObject leveldata)
+  {
+    MatchingScore = 0;
+    MatchingTurn = 0;
+    cardsMatching.Clear();
+    card_matchingcount = leveldata.level_cardmatchingcount;
+
+    CreateCardPoolStage(leveldata.level_cardspawnRow, leveldata.level_cardspawnColumn);
+  }
+
+  public void SetupStageData(int cardmatchingcount)
+  {
+    card_matchingcount = cardmatchingcount;
+  }
+
+  List<int> CreateRandomCardsPool(int cardTypeNumbers)
+  {
+    List<int> cardsTypePool = new List<int>();
+
+    List<CardDataScriptableObject> randomCards = new List<CardDataScriptableObject>();
+    
+    if(cardSpawner.cardDatas.Count > cardTypeNumbers)
+    {
+      randomCards = cardSpawner.cardDatas.OrderBy(x => Guid.NewGuid()).Take(cardTypeNumbers).ToList();
     }
+    else if(cardSpawner.cardDatas.Count < cardTypeNumbers)
+    {
+      randomCards = cardSpawner.cardDatas.OrderBy(x => Guid.NewGuid()).Take(cardSpawner.cardDatas.Count).ToList();
+
+      int additionalCardsType = cardTypeNumbers - cardSpawner.cardDatas.Count;
+
+      var randomAdditionalCards = cardSpawner.cardDatas.OrderBy(x => Guid.NewGuid()).Take(additionalCardsType).ToList();
+
+      randomCards.AddRange(randomAdditionalCards);
+    }
+
+    foreach (var card in randomCards)
+    {
+      for (int j = 0; j < card_matchingcount; j++)
+      {
+        cardsTypePool.Add(card.card_typeIndex);
+      }
+    }
+    cardsTypePool = cardsTypePool.OrderBy(x => Guid.NewGuid()).Take(cardsTypePool.Count).ToList();
+
+    return cardsTypePool;
   }
 
   public void CreateCardPoolStage(int cardRowNumber, int cardColumnNumber)
   {
     ClearCardPoolStage();
+
+    int cardTypeNumbers = (cardRowNumber * cardColumnNumber) / card_matchingcount;
+
+    List<int> cardsTypePool = CreateRandomCardsPool(cardTypeNumbers);
+
+    //debug_cardsTypePool = cardsTypePool;
+
     int card_index = 0;
     for (int z = 0; z < cardRowNumber; z++)
     {
@@ -92,13 +153,21 @@ public class StageController : MonoBehaviour
           newcard.transform.localPosition.y,
           newcard.transform.localPosition.z + posZ);
 
-        SetupNewCardData(newcard);
-        newcard.SetCardIndex(card_index);
-        newcard.CallFlipCardAsync(false, stage_delaycardFlip);
-        cards_stage.Add(newcard);
-        card_index++;
+        if(cardsTypePool.Count > card_index)
+        {
+          SetupNewCardData(newcard, card_index, cardsTypePool[card_index]);
+          cards_stage.Add(newcard);
+          card_index++;
+        }
       }
     }
+  }
+  void SetupNewCardData(Card card, int cardIndex, int cardTypeIndex)
+  {
+    Debug.Log("SetupNewCard Index: " + cardIndex + ", Type: " + cardTypeIndex);
+    card.SetupCardDataAndDisplay(cardSpawner.cardDatas.Find(x => x.card_typeIndex == cardTypeIndex));
+    card.SetCardIndex(cardIndex);
+    card.CallFlipCardAsync(false, stage_delaycardFlip);
   }
 
   public void CallCardFlip(GameObject cardObject)
@@ -126,12 +195,6 @@ public class StageController : MonoBehaviour
         }
       }
     }
-  }
-
-  void SetupNewCardData(Card card)
-  {
-    int randomCardType = Random.Range(0, cardSpawner.cardDatas.Count);
-    card.SetupCardDataAndDisplay(cardSpawner.cardDatas[randomCardType]);
   }
 
   public void ClearCardPoolStage()

@@ -57,12 +57,6 @@ public class CardSpawner : MonoBehaviour
   }
   private void OnGetCardFromPool(Card cardObject)
   {
-    /*float posX = Random.Range(0f, 7.5f);
-    float posZ = Random.Range(-4.25f, 0.25f);
-    SetupNewCardData(cardObject);
-
-    float posX = Random.Range(0f, 7.5f);
-    float posZ = Random.Range(-4.25f, 0.25f);*/
     cardObject.ResetFlipping();
     cardObject.transform.localPosition = card_prefab.transform.localPosition;
     cardObject.transform.localRotation = Quaternion.Euler(Vector3.zero);

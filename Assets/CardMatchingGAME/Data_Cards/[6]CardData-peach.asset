@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e781494d0df127743bf310b1176c5bcc, type: 3}
-  m_Name: CardData-watermelon
+  m_Name: '[6]CardData-peach'
   m_EditorClassIdentifier: 
-  card_name: watermelon
-  card_typeIndex: 0
-  card_displayMaterial: {fileID: 2100000, guid: 25b1ceaa79d06f54bb3a515fa684860c, type: 2}
+  card_name: peach
+  card_typeIndex: 6
+  card_displayMaterial: {fileID: 2100000, guid: c57a1107feb995c44a5ac7d961a1d0bb, type: 2}

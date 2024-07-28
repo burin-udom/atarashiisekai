@@ -153,7 +153,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 511478040}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &238304752
 MonoBehaviour:
@@ -315,7 +315,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 511478040}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &426584576
 GameObject:
@@ -423,10 +423,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1717435476}
-  - {fileID: 890309963}
   - {fileID: 238304751}
   - {fileID: 365953548}
+  - {fileID: 1177355920}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -698,6 +697,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 577787568a9aa2f4288858ac9f833f9e, type: 2}
   - {fileID: 11400000, guid: a57332cad981735488277bc973fe524a, type: 2}
   - {fileID: 11400000, guid: 0cb39b2edcbf72242963d1e942f7902e, type: 2}
+  - {fileID: 11400000, guid: d645c472d0fe12746b6ef81dde9536bc, type: 2}
+  - {fileID: 11400000, guid: ffacdba8a651de741bdc166912863626, type: 2}
+  - {fileID: 11400000, guid: 930beb9f58da88e42b71fb2f7ac8baa3, type: 2}
+  - {fileID: 11400000, guid: 27b3e1f30e9629e4ca05641b9feb3a08, type: 2}
 --- !u!4 &890309963
 Transform:
   m_ObjectHideFlags: 0
@@ -710,7 +713,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 511478040}
+  m_Father: {fileID: 1177355920}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &965871762
@@ -939,6 +942,55 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1177355919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1177355920}
+  - component: {fileID: 1177355921}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1177355920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177355919}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1717435476}
+  - {fileID: 890309963}
+  m_Father: {fileID: 511478040}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1177355921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177355919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a725877dc92014fb9bc98bade6e031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level_scriptabledatas:
+  - {fileID: 11400000, guid: 390371aa8a81fa543ac002df27cd6523, type: 2}
+  - {fileID: 11400000, guid: c1ac7906b020265478092dd9c52f30ee, type: 2}
 --- !u!4 &1189842459 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2145105373666990092, guid: d0e74d1a6237c7e43ae8bbe85517226d, type: 3}
@@ -1376,7 +1428,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cards_stage: []
   card_spawnRow: 4
-  card_spawnColumn: 6
+  card_spawnColumn: 3
   stage_delaycardFlip: 1000
   spacing_posX: 1.5
   spacing_posZ: -1.5
@@ -1411,6 +1463,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  debug_cardsTypePool: 
 --- !u!4 &1717435476
 Transform:
   m_ObjectHideFlags: 0
@@ -1423,7 +1476,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 511478040}
+  m_Father: {fileID: 1177355920}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1757703838

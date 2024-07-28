@@ -4,3 +4,9 @@ banana.png
 https://www.flaticon.com/free-sticker/banana_6439929?term=fruit&page=1&position=6&origin=search&related_id=6439929
 strawberry.png
 https://www.flaticon.com/free-sticker/strawberry_6641901?term=fruit&page=1&position=2&origin=search&related_id=6641901
+grape-fruit.png
+https://www.flaticon.com/free-sticker/grape-fruit_6641902?term=fruit&page=1&position=10&origin=search&related_id=6641902
+avocado.png
+https://www.flaticon.com/free-sticker/avocado_6439927?term=fruit&page=1&position=11&origin=search&related_id=6439927
+mangosteen.png
+https://www.flaticon.com/free-sticker/mangosteen_6439941?term=fruit&page=1&position=40&origin=search&related_id=6439941

@@ -18,9 +18,6 @@ public class Card : MonoBehaviour
 
   public IObjectPool<Card> cardPool;
 
-  /*[SerializeField]
-  private CardDataScriptableObject cardData;
-  */
   public bool isCardfilpped = false;
   public bool isFlipping = false;
   [SerializeField]
@@ -53,6 +50,7 @@ public class Card : MonoBehaviour
     card_name = data.card_name;
     card_typeIndex = data.card_typeIndex;
 
+    gameObject.name = "[" + card_name + "]";
     if (card_renderer != null)
     {
       card_renderer.material = data.card_displayMaterial;

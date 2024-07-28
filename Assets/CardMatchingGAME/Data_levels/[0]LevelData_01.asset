@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd8f89171d6fff943ba62e8d0d858b64, type: 3}
+  m_Name: '[0]LevelData_01'
+  m_EditorClassIdentifier: 
+  level_name: level01
+  level_index: 0
+  level_cardspawnRow: 4
+  level_cardspawnColumn: 4
+  level_cardmatchingcount: 2
+  level_cardDatas:
+  - {fileID: 11400000, guid: a57332cad981735488277bc973fe524a, type: 2}
+  - {fileID: 11400000, guid: 0cb39b2edcbf72242963d1e942f7902e, type: 2}
+  - {fileID: 11400000, guid: ffacdba8a651de741bdc166912863626, type: 2}
+  - {fileID: 11400000, guid: d645c472d0fe12746b6ef81dde9536bc, type: 2}
