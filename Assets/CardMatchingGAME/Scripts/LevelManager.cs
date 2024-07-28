@@ -27,6 +27,8 @@ public class LevelManager : MonoBehaviour
   public UnityEvent onGameEndingEvent;
   public bool isGameEnd = false;
 
+  public UnityEvent onSavedSuccessEvent;
+
   private List<string> savedfiles = new List<string>();
   private string targetloadingfile = "";
 
@@ -61,16 +63,16 @@ public class LevelManager : MonoBehaviour
     }
   }
 
-  void Update()
+  /*void Update()
   {
-    /*if (Input.GetKeyDown(KeyCode.Alpha1))
+    if (Input.GetKeyDown(KeyCode.Alpha1))
     {
       StartLevelIndex(0);
     }
     if (Input.GetKeyDown(KeyCode.Alpha2))
     {
       StartLevelIndex(1);
-    }*/
+    }
     if (Input.GetKeyDown(KeyCode.S))
     {
       SaveCurrentLevel();
@@ -80,7 +82,7 @@ public class LevelManager : MonoBehaviour
       LoadingTargetLevel();
     }
 
-  }
+  }*/
 
   public void StartGame()
   {
@@ -145,6 +147,7 @@ public class LevelManager : MonoBehaviour
     string json = JsonUtility.ToJson(levelSavedData, true);
 
     SavedLoadJson.SaveToJsonFile(json, "/savedlevel", level_datas[level_currentlevel].level_name + "saveddata.json");
+    onSavedSuccessEvent?.Invoke();
   }
 
   public void LoadingTargetLevel()

@@ -12,6 +12,9 @@ public class UIController : MonoBehaviour
 
   public GameObject toggle_selectloadlevel;
   public Transform transform_selectloadlevelparent;
+  public ToggleGroup togglegroup_selectloadlevel;
+
+  private List<GameObject> togglelist_levelselection = new List<GameObject>();
 
   private void Awake()
   {
@@ -33,17 +36,31 @@ public class UIController : MonoBehaviour
 
   public void SetLoadLevelSelectionPanel(List<string> levelsname)
   {
+    ClearToggleLevelSelectionList();
+    togglelist_levelselection = new List<GameObject>();
+
     int i = 0;
     foreach(string levelname in levelsname)
     {
       var toggleselectlevel = Instantiate(toggle_selectloadlevel, transform_selectloadlevelparent);
 
       var newtoggle = toggleselectlevel.GetComponent<ToggleController>();
+      newtoggle.toggle.group = togglegroup_selectloadlevel;
       newtoggle.SetToggleLabel(levelname.Substring(0, levelname.Length - 5));
       newtoggle.toggle_index = i;
 
+      togglelist_levelselection.Add(toggleselectlevel);
       i += 1;
     }
+  }
+
+  private void ClearToggleLevelSelectionList()
+  {
+    for(int i = 0; i < togglelist_levelselection.Count; i++)
+    {
+      Destroy(togglelist_levelselection[i]);
+    }
+    togglelist_levelselection.Clear();
   }
 
 }

@@ -27,10 +27,6 @@ public class CameraRaycastInput : MonoBehaviour
             //objectNameDisplay.text = "Hit: " + hit.collider.gameObject.name;
           }
         }
-        /*else
-        {
-          objectNameDisplay.text = "";
-        }*/
       }
     }
     else if (Input.GetMouseButtonDown(0))
@@ -47,10 +43,6 @@ public class CameraRaycastInput : MonoBehaviour
           //objectNameDisplay.text = "Hit: " + hit.collider.gameObject.name;
         }
       }
-      /*else
-      {
-        objectNameDisplay.text = "";
-      }*/
     }
   }
 }

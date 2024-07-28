@@ -175,16 +175,21 @@ public class StageController : MonoBehaviour
     int card_index = 0;
     for (int z = 0; z < cardRowNumber; z++)
     {
-      float posZ = z * spacing_posZ;
+      //float posZ = z * spacing_posZ
+      float posZ = (z + 1) * (5f / (cardRowNumber + 1));
+      posZ = Mathf.Clamp(posZ, 1f, 5f);
       for (int x = 0; x < cardColumnNumber; x++)
       {
-        float posX = x * spacing_posX;
+        //float posX = x * spacing_posX;
+        float posX = (x + 1) * (8f / (cardColumnNumber + 1));
+        posX = Mathf.Clamp(posX, 1f, 8f);
+        //Debug.Log("Card Col[" + x + "], Row[" + z + "] PosZ: " + posZ);
         var newcard = cardSpawner.GetCard();
 
         newcard.transform.localPosition = new Vector3(
           newcard.transform.localPosition.x + posX,
           newcard.transform.localPosition.y,
-          newcard.transform.localPosition.z + posZ);
+          newcard.transform.localPosition.z - posZ);
 
         if(cardsTypePool.Count > card_index)
         {
