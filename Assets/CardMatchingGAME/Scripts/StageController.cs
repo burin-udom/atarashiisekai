@@ -65,6 +65,13 @@ public class StageController : MonoBehaviour
     }
   }
 
+  [SerializeField]
+  private AudioSource audioSourceEffect;
+  [SerializeField]
+  private AudioClip matching_audio;
+  [SerializeField]
+  private AudioClip mismatching_audio;
+
   public List<int> debug_cardsTypePool = new List<int>();
 
   private void Awake()
@@ -79,6 +86,7 @@ public class StageController : MonoBehaviour
   void Start()
   {
     cardSpawner = CardSpawner.instance;
+    //LevelManager.instance.onGameEndingEvent.AddListener(PlayAudioGameEnding);
   }
 
   void Update()
@@ -291,6 +299,8 @@ public class StageController : MonoBehaviour
   }
   void OnUnMatchingCard(List<Card> cards)
   {
+    audioSourceEffect.clip = mismatching_audio;
+    audioSourceEffect.Play();
     foreach (var card in cards)
     {
       card.CallFlipCardAsync(false, 0);
@@ -299,6 +309,8 @@ public class StageController : MonoBehaviour
   void OnMatchingCards(List<Card> cards)
   {
     MatchingScore++;
+    audioSourceEffect.clip = matching_audio;
+    audioSourceEffect.Play();
     foreach (var card in cards)
     {
       cards_stage.Remove(card);

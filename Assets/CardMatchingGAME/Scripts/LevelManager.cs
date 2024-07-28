@@ -32,6 +32,11 @@ public class LevelManager : MonoBehaviour
 
   public LevelSavedData debug_levelSavedData;
 
+  [SerializeField]
+  private AudioSource audioSourceEffect;
+  [SerializeField]
+  private AudioClip gameEnding_audio;
+
   private void Awake()
   {
     if(instance != null)
@@ -45,6 +50,7 @@ public class LevelManager : MonoBehaviour
   {
     CreateLevelDatas();
     GetSavedDataFiles();
+    onGameEndingEvent.AddListener(PlayAudioGameEnding);
   }
 
   private void CreateLevelDatas()
@@ -173,6 +179,13 @@ public class LevelManager : MonoBehaviour
     {
       targetloadingfile = savedfiles[index];
     }
+  }
+
+  void PlayAudioGameEnding()
+  {
+    //Debug.Log("Playing Game Ending Audio!!");
+    audioSourceEffect.clip = gameEnding_audio;
+    audioSourceEffect.Play();
   }
 
 }

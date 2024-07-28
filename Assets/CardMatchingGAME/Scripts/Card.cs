@@ -25,6 +25,8 @@ public class Card : MonoBehaviour
   [SerializeField]
   private Ease setflipanimationEase;
 
+  [SerializeField]
+  private AudioSource card_AudioSource;
 
   List<Task> tasks = new List<Task>();
 
@@ -99,6 +101,7 @@ public class Card : MonoBehaviour
   {
     var tcs = new TaskCompletionSource<bool>();
 
+    card_AudioSource.Play();
     transform.DOLocalRotate(new Vector3(0f, 0f, angle), card_flipduration).SetEase(setflipanimationEase).OnComplete(() => tcs.SetResult(true));
 
     return tcs.Task;
